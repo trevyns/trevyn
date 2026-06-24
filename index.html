@@ -49,57 +49,28 @@
       linear-gradient(to bottom, rgba(2,8,18,0.25) 0%, transparent 20%, transparent 80%, rgba(2,8,18,0.45) 100%);
   }
 
-/* ---------- PS3 XMB info bar ---------- */
+/* ---------- information panel (PS3 XMB clock) ---------- */
   .info-panel{
-    position:fixed; top:0; right:0; z-index:5;
-    width:168px;
-    background:rgba(0,0,0,0.50);
-    border-left:1px solid rgba(255,255,255,0.12);
-    border-bottom:1px solid rgba(255,255,255,0.09);
-    overflow:hidden;
+    position:fixed; top:0; right:clamp(14px,5vw,32px); z-index:5;
+    display:flex; align-items:center; justify-content:center;
+    padding:clamp(7px,1.4vw,10px) clamp(18px,3.4vw,26px) clamp(8px,1.6vw,11px);
+    border-radius:0 0 clamp(10px,2vw,14px) clamp(10px,2vw,14px);
+    background:linear-gradient(180deg, rgba(20,46,72,0.85) 0%, rgba(6,18,32,0.78) 100%);
+    -webkit-backdrop-filter:blur(16px) saturate(160%);
+    backdrop-filter:blur(16px) saturate(160%);
+    border:1px solid rgba(170,210,240,0.18);
+    border-top:none;
+    box-shadow:0 8px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.3);
+    max-width:calc(100vw - 24px);
   }
   .info-panel::before{
     content:'';
-    position:absolute; top:0; left:0; right:0; height:1px;
-    background:rgba(255,255,255,0.16);
+    position:absolute; top:0; left:10%; right:10%; height:1px;
+    background:linear-gradient(90deg, transparent, rgba(143,214,255,0.55), transparent);
   }
-  .info-panel__top{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:3px 7px; gap:6px;
-    border-bottom:1px solid rgba(255,255,255,0.06);
-  }
-  .info-panel__datetime{
-    display:flex; align-items:baseline; gap:5px; flex:1;
-  }
-  .info-panel__date{
-    font-size:9px; color:rgba(215,215,215,0.88); letter-spacing:0.02em;
-    font-family:var(--font-body);
-  }
-  .info-panel__time{
-    font-size:9px; color:rgba(240,240,240,0.95); letter-spacing:0.05em;
-    font-family:var(--font-body);
-  }
-  .info-panel__time .colon{ animation:xmb-blink 1s step-start infinite; }
-  @keyframes xmb-blink{ 0%,100%{opacity:1} 50%{opacity:0.15} }
-  .info-panel__icons{ display:flex; align-items:center; gap:4px; flex-shrink:0; }
-  .info-panel__badge{
-    font-size:7px; color:rgba(200,200,200,0.82);
-    border:0.5px solid rgba(200,200,200,0.38);
-    padding:0.5px 3px; letter-spacing:0.07em; line-height:1.5;
-    font-family:var(--font-body);
-  }
-  .info-panel__ticker{
-    padding:2px 7px 3px 7px; overflow:hidden; white-space:nowrap;
-  }
-  .info-panel__ticker-inner{
-    display:inline-block;
-    animation:xmb-scroll 20s linear infinite;
-  }
-  @keyframes xmb-scroll{ 0%{transform:translateX(100%)} 100%{transform:translateX(-200%)} }
-  .info-panel__ticker-txt{
-    font-size:8px; color:rgba(195,208,218,0.78); letter-spacing:0.03em;
-    font-family:var(--font-body);
-  }
+  .info-panel__time{ text-align:center; font-family:var(--font-display); line-height:1.22; flex:0 0 auto; white-space:nowrap; }
+  .info-panel__time .time{ font-size:clamp(15px,2.8vw,19px); font-weight:300; letter-spacing:0.04em; color:var(--ink); text-shadow:0 0 14px rgba(143,214,255,0.35); }
+  .info-panel__time .date{ font-size:clamp(8.5px,1.5vw,10px); letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-dim); margin-top:2px; }
 
 
   /* ---------- main xmb layout ---------- */
@@ -405,33 +376,10 @@
   <canvas id="c" aria-hidden="true"></canvas>
   <div class="vignette"></div>
 
-  <div class="info-panel" id="infoPanel">
-    <div class="info-panel__top">
-      <div class="info-panel__datetime">
-        <span class="info-panel__date" id="xmbDate">24/6</span>
-        <span class="info-panel__time"><span id="xmbHour">12</span><span class="colon">:</span><span id="xmbMin">00</span> <span id="xmbAmpm">AM</span></span>
-      </div>
-      <div class="info-panel__icons">
-        <svg width="13" height="9" viewBox="0 0 32 20" fill="none" aria-hidden="true">
-          <rect x="1" y="4" width="10" height="14" rx="4" fill="rgba(200,200,200,0.55)"/>
-          <rect x="21" y="4" width="10" height="14" rx="4" fill="rgba(200,200,200,0.55)"/>
-          <rect x="10" y="7" width="12" height="7" rx="1" fill="rgba(160,160,160,0.5)"/>
-          <circle cx="7" cy="8" r="1.5" fill="rgba(255,255,255,0.45)"/>
-          <circle cx="7" cy="14" r="1.5" fill="rgba(255,255,255,0.45)"/>
-          <circle cx="4" cy="11" r="1.5" fill="rgba(255,255,255,0.45)"/>
-          <circle cx="10" cy="11" r="1.5" fill="rgba(255,255,255,0.45)"/>
-          <circle cx="25" cy="9" r="1.2" fill="rgba(80,200,80,0.85)"/>
-          <circle cx="28" cy="11" r="1.2" fill="rgba(220,80,80,0.85)"/>
-          <circle cx="22" cy="11" r="1.2" fill="rgba(80,80,220,0.85)"/>
-          <circle cx="25" cy="13" r="1.2" fill="rgba(220,180,40,0.85)"/>
-        </svg>
-        <span class="info-panel__badge">Pro</span>
-      </div>
-    </div>
-    <div class="info-panel__ticker">
-      <div class="info-panel__ticker-inner">
-        <span class="info-panel__ticker-txt">New music available now — check the NEW tab for the latest releases from Trevyn.</span>
-      </div>
+  <div class="info-panel">
+    <div class="info-panel__time" id="clock">
+      <div class="time">--:--</div>
+      <div class="date">---</div>
     </div>
   </div>
 
@@ -1827,17 +1775,12 @@ window.addEventListener('resize', () => {
 
 /* ---------- clock ---------- */
 function updateClock(){
+  const el  = document.getElementById('clock');
   const now = new Date();
-  const h = now.getHours(), m = now.getMinutes();
-  const h12 = h % 12 || 12;
-  const pad = n => String(n).padStart(2,'0');
-  document.getElementById('xmbDate').textContent = now.getDate() + '/' + (now.getMonth()+1);
-  document.getElementById('xmbHour').textContent = h12;
-  document.getElementById('xmbMin').textContent = pad(m);
-  document.getElementById('xmbAmpm').textContent = h >= 12 ? 'PM' : 'AM';
+  el.innerHTML = `<div class="time">${now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div><div class="date">${now.toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'})}</div>`;
 }
 updateClock();
-setInterval(updateClock, 1000);
+setInterval(updateClock, 15000);
 
 /* ---------- sound ---------- */
 let audioCtx;
